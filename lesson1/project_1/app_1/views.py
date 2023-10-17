@@ -1,15 +1,11 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from django.http import HttpResponse
-from urllib import request
+from . models import Mebel
 
-
-def url1(resuest):
-    return HttpResponse('Answer 1')
-
-
-def url2(resuest):
-    return HttpResponse('Answer 2')
-
-
-def url3(resuest):
-    return HttpResponse(request)
+def show_all(request):
+    mebels = Mebel.objects.all().order_by("-price")
+    return render(
+        request,
+        'app_1/show_all.html',
+        {'mebels': mebels}
+    )

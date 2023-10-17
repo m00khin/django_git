@@ -1,6 +1,10 @@
 from django.db import models
 
-class Car(models.Model):
-    name = models.CharField('Название автомобиля', max_length=30)
+class Mebel(models.Model):
+    link = models.TextField('Ссылка')
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    description = models.TextField('Описание')
 
+    def __str__(self):
+        return f'{self.price} | {self.description[:60]}'
 
