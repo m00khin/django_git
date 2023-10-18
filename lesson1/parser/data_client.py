@@ -8,7 +8,7 @@ from abc import ABC, abstractmethod
 
 class DataClient(ABC):
     @abstractmethod
-    def get_connection(self):
+    def _get_connection(self):
         pass
 
     @abstractmethod
@@ -23,8 +23,16 @@ class DataClient(ABC):
     def insert(self, conn, link, price, description):
         pass
 
+    @abstractmethod
+    def select_by_word(self, word):
+        pass
+
+    @abstractmethod
+    def select_by_word_and_price(self, word, price_from, price_to):
+        pass
+
     def run_test(self):
-        conn = self.get_connection()
+        conn = self._get_connection()
         if not isinstance(conn, str):
             self.create_mebel_table(conn)
             items = self.get_items(conn, price_from=10, price_to=30)
@@ -40,17 +48,38 @@ class PostgresClient(DataClient):
     HOST = "172.17.135.17"
     PORT = "5432"
 
-    def get_connection(self):
-        try:
-            connection = psycopg2.connect(
-                user=self.USER,
-                password=self.PASSWORD,
-                host=self.HOST,
-                port=self.PORT
+    def _get_connection(self):
+        # try:
+        #     connection = psycopg2.connect(
+        #         user=self.USER,
+        #         password=self.PASSWORD,
+        #         host=self.HOST,
+        #         port=self.PORT
+        #     )
+        #     return connection
+        # except Error:
+        #     print(Error)
+        return psycopg2.connect(
+            user=self.USER,
+            password=self.PASSWORD,
+            host=self.HOST,
+            port=self.PORT
+        )
+
+    def select_by_word(self, word):
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM app_1_mebel WHERE description LIKE '%s'", (word,))
+            return cursor.fetchall()
+
+    def select_by_word_and_price(self, word, price_from, price_to):
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM app_1_mebel WHERE description LIKE %s and price >= %s and price <= %s",
+                (f'%{word}%', price_from, price_to)
             )
-            return connection
-        except Error:
-            print(Error)
+            return cursor.fetchall()
 
     def create_mebel_table(self, conn):
         cursor_object = conn.cursor()

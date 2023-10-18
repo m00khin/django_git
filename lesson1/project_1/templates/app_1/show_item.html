@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">Дата</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Описание</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td>{{item.parse_datetime}}</td>
+                <td scope="row"><a href={{item.link}}>{{item.price}}</a></td>
+                <td>{{item.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

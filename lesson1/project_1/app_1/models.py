@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Mebel(models.Model):
     link = models.TextField('Ссылка')
     price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -11,6 +12,7 @@ class Mebel(models.Model):
         blank=True,
         verbose_name='Дата прихода к нам'
     )
+
     def get_absolute_url(self):
         return self.link
 
