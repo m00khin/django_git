@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 # from django.http import HttpResponse
-from . models import Mebel
-from . forms import UpdateItemForm
+from .models import Mebel
+from .forms import UpdateItemForm
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 
 def show_all(request):
@@ -57,3 +60,13 @@ def main(request):
 
 def page_not_found(request, *args, **argv):
     return redirect('main')
+
+
+def login(request):
+    return render(request, 'registration/login.html')
+
+
+class SignUp(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/register.html'

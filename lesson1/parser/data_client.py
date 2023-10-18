@@ -103,14 +103,15 @@ class PostgresClient(DataClient):
 
     def insert(self, conn, link, price, description):
         cursor = conn.cursor()
-        cursor.execute(f"INSERT INTO app_1_mebel (link, price, description) VALUES ('{link}', '{price}', '{description}')")
+        cursor.execute(
+            f"INSERT INTO app_1_mebel (link, price, description) VALUES ('{link}', '{price}', '{description}')")
         conn.commit()
 
 
 class Sqlite3Client(DataClient):
     DB_NAME = "mebel.db"
 
-    def get_connection(self):
+    def _get_connection(self):
         try:
             conn = sqlite3.connect(self.DB_NAME)
             return conn
@@ -142,11 +143,17 @@ class Sqlite3Client(DataClient):
         cursor.execute(f"INSERT INTO mebel (link, price, description) VALUES ('{link}', '{price}', '{description}')")
         conn.commit()
 
+    def select_by_word(self, word):
+        pass
+
+    def select_by_word_and_price(self, word, price_from, price_to):
+        pass
+
 
 class CsvClient(DataClient):
     DB_NAME = "mebel.csv"
 
-    def get_connection(self):
+    def _get_connection(self):
         return self.DB_NAME
 
     def create_mebel_table(self, conn):
@@ -160,6 +167,11 @@ class CsvClient(DataClient):
         data = pandas.DataFrame([{'link': link, 'price': price, 'description': description}])
         data.to_csv(conn, mode='a', index=False, header=False)
 
+    def select_by_word(self, word):
+        pass
+
+    def select_by_word_and_price(self, word, price_from, price_to):
+        pass
 # PostgresClient().run_test()
 # Sqlite3Client().run_test()
 # CsvClient().run_test()
