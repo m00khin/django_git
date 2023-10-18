@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-@imfzx5@e2vts+nl8lru^(k_h1skdplwh2xk23h**6@78f!rj)
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1'
+]
 
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
