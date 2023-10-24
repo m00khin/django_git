@@ -4,6 +4,7 @@
 # django-admin startproject test_project
 # python .\manage.py startapp testapp1
 # python .\manage.py runserver 8000
+# pip install django-debug-toolbar
 
 # project
 django-admin startproject project_1
