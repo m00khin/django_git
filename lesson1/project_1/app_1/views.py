@@ -5,6 +5,7 @@ from .forms import UpdateItemForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 
 
 def show_all(request):
@@ -33,7 +34,7 @@ def show_item(request, item_id):
     item = Mebel.objects.get(pk=item_id)
     return render(
         request,
-        'app1/show_item.html',
+        'app_1/show_item.html',
         {'item': item}
     )
 
